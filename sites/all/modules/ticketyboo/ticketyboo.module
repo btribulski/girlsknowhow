@@ -1,0 +1,252 @@
+<?php
+
+/**
+* Implementation of hook_help()
+*/
+function ticketyboo_help($section) {
+}
+
+/**
+* Implementation of hook_perm()
+*/
+function ticketyboo_perm() {
+   return array(
+      'administer ticketyboo',
+      'view ticketyboo',
+   );
+}
+
+/**
+* Implementation of hook_block()
+*/
+function ticketyboo_block($op = 'list', $delta = 0, $edit = array()){
+   if ($op == 'list') {
+      return array(
+         1 => array('info' => t('Ticker 1'), ),
+         2 => array('info' => t('Ticker 2'), ),
+         3 => array('info' => t('Ticker 3'), ),
+         4 => array('info' => t('Ticker 4'), ),
+         5 => array('info' => t('Ticker 5'), ),
+      );
+   }
+   elseif ($op == 'configure') {
+      return _ticketyboo_config($delta);
+   }
+   elseif ($op == 'save') {
+      return _ticketyboo_config_save($delta, $edit);
+   }
+   elseif ($op == 'view') {
+      $block = array();
+      $block['subject'] = 'Ticker '.$delta;
+      $block['content'] = _ticketyboo_block($delta);
+      return $block;
+   }
+}
+
+/**
+* Return the block configuration form
+*/
+function _ticketyboo_config($delta) {
+   $form = array();
+   $form['text'] = array(
+      '#title' => t('Text'),
+      '#description' => t('Text, which will go in front of the ticker'),
+      '#type' => 'textarea',
+      '#default_value' => variable_get('ticketyboo_text_'.$delta, ''),
+   );
+   $form['selection'] = array(
+      '#title' => t('Selection'),
+      '#description' => t('Method of selecting nodes to be displayed in the ticker:<br />- Node: a list of node numbers separated by commas<br />- Type: a single node type (eg page, story)<br />- Taxonomy: a list of taxonomy categories separarted by commas'),
+      '#type' => 'select',
+      '#default_value' => variable_get('ticketyboo_selection_'.$delta, 'node'),
+      '#options' => array('node'=>'Node', 'type'=>'Type', 'taxonomy'=>'Taxonomy'),
+   );
+   $form['nodes'] = array(
+      '#title' => t('Nodes, Type or Taxonomy'),
+      '#description' => t('A list of node numbers, types or taxonomy categories which will be used for Ticker ').$delta.'. '.t('Separate each entry with commas.'),
+      '#type' => 'textarea',
+      '#default_value' => variable_get('ticketyboo_nodes_'.$delta, ''),
+   );
+   $form['transition'] = array(
+      '#title' => t('Transition time'),
+      '#description' => t('How long, in seconds, for the ticker to move to the next item.'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_transition_'.$delta, 3),
+   );
+   $form['pause'] = array(
+      '#title' => t('Pause time'),
+      '#description' => t('How long, in seconds, for the ticker to remain stationary on each item.'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_pause_'.$delta, 1),
+   );
+   $form['direction'] = array(
+      '#title' => t('Direction'),
+      '#description' => t('Direction in which the ticker will move'),
+      '#type' => 'select',
+      '#default_value' => variable_get('ticketyboo_direction_'.$delta, 'vertical'),
+      '#options' => array('vertical'=>'vertical', 'horizontal'=>'horizontal'),
+   );
+   $form['style'] = array(
+      '#title' => t('Ticker style'),
+      '#description' => t('CSS style attributes for the ticker area'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_style_'.$delta, 'width: 100px; height: 100px;'),
+   );
+   $form['item_width'] = array(
+      '#title' => t('Item width'),
+      '#description' => t('Width of individual ticker items in pixels'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_item_width_'.$delta, 100),
+   );
+   $form['item_height'] = array(
+      '#title' => t('Item height'),
+      '#description' => t('Height of individual ticker items in pixels'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_item_height_'.$delta, 100),
+   );
+   $form['item_spacing'] = array(
+      '#title' => t('Item spacing'),
+      '#description' => t('Spacing between individual ticker items in pixels'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_item_spacing_'.$delta, 10),
+   );
+   $form['item_style'] = array(
+      '#title' => t('Ticker item style'),
+      '#description' => t('CSS style attributes for each ticker item.  Don\'t specify height or width, though.'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_item_style_'.$delta, ''),
+   );
+   $form['offset'] = array(
+      '#title' => t('Offset'),
+      '#description' => t('Initial offset, ie starting position for the ticker items, in pixels.'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('ticketyboo_offset_'.$delta, 0),
+   );
+   return $form;
+}
+
+/**
+* Save the block configuration form
+*/
+function _ticketyboo_config_save($delta, $edit) {
+   variable_set('ticketyboo_nodes_'.$delta, $edit['nodes']);
+   variable_set('ticketyboo_selection_'.$delta, $edit['selection']);
+   variable_set('ticketyboo_text_'.$delta, $edit['text']);
+   variable_set('ticketyboo_transition_'.$delta, $edit['transition']);
+   variable_set('ticketyboo_pause_'.$delta, $edit['pause']);
+   variable_set('ticketyboo_direction_'.$delta, $edit['direction']);
+   variable_set('ticketyboo_style_'.$delta, $edit['style']);
+   variable_set('ticketyboo_item_width_'.$delta, $edit['item_width']);
+   variable_set('ticketyboo_item_height_'.$delta, $edit['item_height']);
+   variable_set('ticketyboo_item_spacing_'.$delta, $edit['item_spacing']);
+   variable_set('ticketyboo_item_style_'.$delta, $edit['item_style']);
+   variable_set('ticketyboo_offset_'.$delta, $edit['offset']);
+}
+
+/**
+* Return the contents of a block
+*/
+function _ticketyboo_block($delta) {
+static $loaded = false;
+$eps = 50; // events per second, controls the smoothness of the ticker
+
+   // get the parameters
+   $nodes = variable_get('ticketyboo_nodes_'.$delta, '');
+   $selection = variable_get('ticketyboo_selection_'.$delta, '');
+   $text = variable_get('ticketyboo_text_'.$delta, '');
+   $transition = variable_get('ticketyboo_transition_'.$delta, 3);
+   $pause = variable_get('ticketyboo_pause_'.$delta, 1);
+   $direction = variable_get('ticketyboo_direction_'.$delta, 'vertical');
+   $style = variable_get('ticketyboo_style_'.$delta, 'width: 100px; height: 100px;');
+   $item_width = variable_get('ticketyboo_item_width_'.$delta, 100);
+   $item_height = variable_get('ticketyboo_item_height_'.$delta, 100);
+   $item_spacing = variable_get('ticketyboo_item_spacing_'.$delta, 100);
+   $item_style = variable_get('ticketyboo_item_style_'.$delta, '');
+   $offset = variable_get('ticketyboo_offset_'.$delta, 0);
+
+   // ticker id
+   $id = "ticketyboo_$delta";
+
+   // timer interval
+   $interval = (int) 1000/$eps;
+   // distance moved during transition
+   if ($direction == 'horizontal') {
+      $distance = $item_width + $item_spacing;
+   } else {
+      $distance = $item_height + $item_spacing;
+   }
+   // number of events in each transition and size of each event
+   $transition_events = $transition * $eps;
+   $transition_distance = $distance / $transition_events;
+   $pause_events = $pause * $eps;
+
+   // additional style information for ticker
+   $style = "overflow-x: hidden; overflow-y: hidden; $style";
+   if ($direction == 'horizontal') {
+      $float = 'float: left;';
+      $pad_style="width: {$item_spacing}px; height: {$item_height}px; $float";
+   } else {
+      $float = '';
+      $pad_style="width: {$item_width}px; height: {$item_spacing}px";
+   }
+   $item_style = "overflow-x: hidden; overflow-y: hidden; {$float} width: {$item_width}px; height: {$item_height}px; {$item_style}";
+
+   // build the ticker contents
+   switch ($selection) {
+      case 'node':
+         $nodes = explode(',', $nodes);
+         break;
+      case 'type':
+         $r = db_query("SELECT DISTINCT nid FROM {node} WHERE type ='%s' AND promote =%d", trim($nodes),1);
+         $nodes = array();
+         while ($n = db_fetch_array($r)) {$nodes[] = $n['nid'];}
+         break;
+      case 'taxonomy':
+         $r = db_query("SELECT DISTINCT nid FROM {term_node} WHERE tid in (%s)", $nodes);
+         $nodes = array();
+         while ($n = db_fetch_array($r)) {$nodes[] = $n['nid'];}
+         break;
+   }
+   $ret = '';
+   $i=0;
+   foreach ($nodes as $nid) {
+      $node = node_load(trim($nid));
+      if ($i > 0) {
+         $ret .= '<div style="'.$pad_style.'"></div>';
+      }
+      $ret .= '<div id="ticketyboo_'.$delta.'_'.$i.'" class="ticketyboo_teaser" style="'.$item_style.'">';
+      $ret .= '<a href="/';
+	  $ret .= $node->path;
+	  $ret .= '">';
+	  $ret .= $node->title;
+	  $ret .= '</a>';
+      $ret .= '</div>';
+      $i++;
+   }
+
+   // build a wrapper for the contents
+   if ($direction == 'horizontal') {
+      $w = count($nodes) * ($item_width + $item_spacing);
+      $h = $item_height;
+   } else {
+      $h = count($nodes) * ($item_height + $item_spacing);
+      $w = $item_width;
+   }
+   $wrap_style = "width: {$w}px; height: {$h}px;";
+   $ret = '<div id="'.$id.'_wrapper" style="'.$wrap_style.'">'.$ret.'</div>';
+   
+   // put contents in ticker window
+   $ret = '<div id="'.$id.'" class="ticketyboo_wrapper" style="'.$style.'" onMouseover="ticketypause['.$delta.'] = true" onMouseout="ticketypause['.$delta.'] = false">'.$ret.'</div>';
+
+   // add scripts etc to page
+   $count = count($nodes);
+   drupal_add_js("tick[$delta] = new ticker($delta, '$id', '$direction', $count, $distance, $interval, $transition_events, $transition_distance, $pause_events, $offset)", 
+      'inline', 'footer', true);
+   if (!$loaded) {
+      drupal_add_js(drupal_get_path('module', 'ticketyboo').'/ticketyboo.js', 'module');
+      $loaded = true;
+   }
+   
+   return $text.$ret;
+   
+}

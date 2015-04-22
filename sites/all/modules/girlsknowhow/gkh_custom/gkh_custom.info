@@ -1,0 +1,11 @@
+; $Id: gkh_custom.info,v 1.2 2009/08/07 22:43:10 eclipsegc Exp $
+name = 'GirlsKnowHow Custom'
+description = Custom functions for the GirlsKnowHow.com website.
+core = 6.x
+package = 'Girls Know How'
+; Information added by drupal.org packaging script on 2009-08-07
+version = "6.x-1.0"
+core = "6.x"
+project = "gkh_custom"
+datestamp = "1249685460"
+

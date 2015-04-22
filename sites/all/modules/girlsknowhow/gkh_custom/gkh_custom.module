@@ -1,0 +1,47 @@
+<?php
+// $Id: gkh_custom.module,v 1.2 2009/08/07 22:43:10 eclipsegc Exp $
+
+/**
+ * @file
+ * gkh_custom is for the customization of some of the functions on the GirlsKnowHow.com website.
+ */
+
+
+/**
+ * Implementation of hook_form_alter
+ */
+
+function gkh_custom_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'views_exposed_form':	
+	  if(arg(1)!='search' && $form['#theme'][0]=='views_exposed_form__blog_posts__page_2'){
+	    if ($form['keys']['#value'] =='') {
+		  	$form['keys']['#value'] = t('Search Blogs');
+			//$form['keys']['#default_value'] = t('Search Blogs');
+			//$default_text = t('Search Blogs');
+		  }
+		  $form['keys']['#size']= '20';
+		  // Add a custom class and placeholder text to the search box.
+		  $form['keys']['#attributes'] = array( 'class' => 'NormalTextBox txtSearch', 'onblur' => "if (this.value == '') {this.value = '".$form['keys']['#value']."';} ;", 'onfocus' => "if (this.value == '".$form['keys']['#value']."') {this.value = '';} ;" );
+		  //$form['keys']['#attributes'] = array( 'class' => 'NormalTextBox txtSearch', 'onblur' => "if (this.value == '') {this.value = '". $default_text ."';} ;", 'onfocus' => "if (this.value == '" . $default_text . "') {this.value = '';} ;" );
+		  /*
+		  $form['submit'] = array(
+			 //'#prefix' => '<div class="submit-button">',
+			 '#type' => 'submit',
+			 '#theme' => 'button',
+			 '#button_type' => 'image',
+		     '#value' => t('Go'),
+			 '#attributes' =>  array('src' => '/'. drupal_get_path('theme', 'girlsknowhow') . '/images/btn_search.png'),
+			 //'#suffix' => '</div>',
+		 );
+		 */
+		$form['submit']['#type']= 'submit';
+		$form['submit']['#theme']= 'button';
+		$form['submit']['#button_type']= 'image';
+		$form['submit']['#value'] =  t('Go');
+		$form['submit']['#attributes']  =  array('src' => '/'. drupal_get_path('theme', 'girlsknowhow') . '/images/btn_search.png');
+		
+	  }
+	  break;
+  }
+}

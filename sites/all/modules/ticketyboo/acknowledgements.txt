@@ -1,0 +1,4 @@
+acknowledge_developer = Steve Lockwood
+acknowledge_developer_url = http://stevelockwood.net
+acknowledge_project_url = http://drupal.org/project/ticketyboo
+

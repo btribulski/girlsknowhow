@@ -1,0 +1,13 @@
+; $Id: kaltura_views.info,v 1.2.2.5 2010/07/07 09:34:53 kaltura Exp $: kaltura_views
+name = Kaltura Media Views
+package = Kaltura Media Management
+core = 6.x
+dependencies[] = kaltura
+dependencies[] = views
+description = View your top videos, most viewed, users videos, etc'.
+; Information added by drupal.org packaging script on 2010-07-09
+version = "6.x-1.5"
+core = "6.x"
+project = "kaltura"
+datestamp = "1278636607"
+

@@ -1,0 +1,447 @@
+/* $Id: nice_menus_default.css,v 1.6 2007/10/29 16:38:28 add1sun Exp $ */
+/*
+  This is the default layout template for nice menus, and will provide
+  a starting point for the look of your menus. To customize, it's
+  recommended to create a custom CSS file using this file as a template,
+  then configure the module to use your custom CSS file
+  (this is done in the global settings tab of the theme administration.)
+
+  To help understand the CSS, the HTML looks like this, where
+    x is a number;
+    TYPE is down/left/right;
+    PATH is the menu path such as node/343;
+    MID is the menu id such as 33):
+  <ul id='nice-menu-x' class='nice-menu nice-menu-TYPE'>
+    <li id='menu-MID' class='menu-path-PATH'><a href='#'>This is a menu item</a></li>
+    <li class='menuparent menu-path-PATH'><a href='#'>A submenu</a>
+      <ul...><li...>...</li>
+      </ul>
+    </li>
+    ...
+  </ul>
+
+  If you have more than one nice-menu and want to target a particular one,
+  use its id (e.g. ul#nice-menu-2).
+
+  See README.txt and the handbook page (http://drupal.org/node/185543)
+  for some CSS customization examples.
+*/
+
+/******************************
+ Global CSS for ALL menu types
+******************************/
+
+ul.nice-menu,
+ul.nice-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+}
+
+ul.nice-menu li {
+  border-top: 0;
+  float: left;
+  background-color: #fcd164;
+  background-image: url(images/background_top_menu.jpg);
+  /* Additional overrides to deal with Garland theme. */
+  margin: 0;
+  padding-left: 0;
+}
+ul.nice-menu li li {
+	background-image: none;
+	background-color: #95CB63;
+}
+/* Overrides for Garland header. */
+#header-region ul.nice-menu li {
+  margin: 0;
+  /* Padding rules are needed to deal with Garland's header line-height. */
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  background: #eee;
+}
+
+ul.nice-menu a,
+ul.nice-menu a:active,
+ul.nice-menu a:visited
+ {
+	padding: 0.3em 5px 0.3em 5px;
+	color: #E8E8E8;
+	text-decoration:none;
+}
+ul.nice-menu a:hover {
+	color: #FFFFFF;
+	text-decoration:underline;
+}
+
+
+ul.nice-menu ul,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu ul {
+  top: 35px;
+  left: -1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin-right: 0;
+}
+
+/* Override for Garland header. */
+#header-region ul.nice-menu ul {
+  top: 1.7em;
+}
+
+ul.nice-menu ul li {
+  width: 12.5em;
+}
+
+/******************************
+ VERTICAL (left/right) menus
+******************************/
+
+/* This is the default width of all vertical menus. */
+ul.nice-menu-right, ul.nice-menu-left,
+ul.nice-menu-right li, ul.nice-menu-left li {
+  width: 12.5em;
+}
+
+/* VERTICAL menus where submenus pop RIGHT (default). */
+ul.nice-menu-right ul {
+  width: 12.5em;
+  left: 12.5em;
+  top: -1px;
+}
+
+ul.nice-menu-right ul ul {
+  width: 12.5em;
+  left: 12.5em;
+  top: -1px;
+}
+/*
+ul.nice-menu-right li.menuparent{
+  background-image: url(images/background_top_menu.jpg);
+  
+}
+ul.nice-menu-right li li.menuparent {
+ 	background-color: #003b70;
+
+}
+*/
+/*
+ul.nice-menu-right li.menuparent,
+ul.nice-menu-right li li.menuparent {
+  background-image: url(images/background_top_menu.jpg);
+  background: #eee url(arrow-right.png) right center no-repeat;
+}
+
+ul.nice-menu-right li.menuparent:hover,
+ul.nice-menu-right li.over,
+ul.nice-menu-right li li.menuparent:hover,
+ul.nice-menu-right li li.over {
+  background: #ccc url(arrow-right.png) right center no-repeat;
+}
+*/
+
+/* VERTICAL menus where submenus pop LEFT. */
+ul.nice-menu-left li ul {
+  width: 12.5em;
+  left: -12.65em;
+  top: -1px;
+}
+
+ul.nice-menu-left li ul li ul {
+  width: 12.5em;
+  left: -12.65em;
+  top: -1px;
+}
+
+ul.nice-menu-left li.menuparent,
+ul.nice-menu-left li li.menuparent {
+  background: #eee url(arrow-left.png) left center no-repeat;
+}
+
+ul.nice-menu-left li.menuparent:hover,
+ul.nice-menu-left li.over,
+ul.nice-menu-left li li.menuparent:hover,
+ul.nice-menu-left li li.over {
+  background: #ccc url(arrow-left.png) left center no-repeat;
+}
+
+ul.nice-menu-left a, ul.nice-menu-left ul a {
+  padding-left: 14px;
+}
+
+/******************************
+ HORIZONTAL (down) menus
+******************************/
+ul.nice-menu-down {
+  float: left;
+  border: 0;
+  position:relative;
+  height:35px;
+  
+  /*z-index:10;*/
+  
+}
+
+ul.nice-menu-down li {
+  width:11em;
+  text-align:center;
+  border-right: #bd88bc 2px solid;
+  margin: 0 5px;
+}
+
+ul.nice-menu-down li li {
+  border-top: 0;
+  width:14em;
+  text-align: left;
+  border:none;
+}
+
+ul.nice-menu-down ul {
+  left: 0;
+}
+
+ul.nice-menu-down ul li {
+  clear: both;
+}
+
+ul.nice-menu-down li ul li ul,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li ul li ul {
+  left: 12.5em;
+  top: -1px;
+}
+
+ul.nice-menu-down .menuparent a {
+  padding-right: 15px;
+}
+
+ul.nice-menu-down li.menuparent,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li.menuparent {
+ /* background: #eee url(arrow-down.png) right center no-repeat; */
+}
+
+ul.nice-menu-down li.menuparent:hover,
+ul.nice-menu-down li.over,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li.menuparent:hover,
+#header-region ul.nice-menu-down li.over {
+  /* background: #ccc url(arrow-down.png) right center no-repeat;*/
+}
+
+ul.nice-menu-down li li.menuparent,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li li.menuparent {
+  /* background: #eee url(arrow-right.png) right center no-repeat; */
+}
+
+ul.nice-menu-down li li.menuparent:hover,
+ul.nice-menu-down li li.over,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li li.menuparent:hover,
+#header-region ul.nice-menu-down li li.over {
+  /*background: #ccc url(arrow-right.png) right center no-repeat; */
+}
+/*
+Custom CSS For Top Menu Graphical Buttons
+*/
+#block-nice_menus-2 .nice-menu li {
+	background-repeat:no-repeat;
+	padding: 0 5px 0 0 !important;
+}
+
+/*Home Button */
+ul.nice-menu li.menu-124 {
+	margin-left:20px;
+}
+ul.nice-menu li.menu-124,
+ul.nice-menu li.menu-124 a:link,
+ul.nice-menu li.menu-124 a:visited {
+  background-image: url(images/nav_new/home.png);
+  background-position: 0px 0px;
+  background-repeat:no-repeat;
+  padding: 0px;
+  height: 35px;
+  width: 70px !important;
+  text-indent: -5000px;
+  
+}
+ul.nice-menu li.menu-124 a.active,
+ul.nice-menu li.menu-124 a:hover,
+ul.nice-menu li.menu-124 a:active {
+  background-image: url(images/nav_new/home-over.png);
+  height: 35px;
+  
+}
+/* About Us */
+ul.nice-menu li.menu-288,
+ul.nice-menu li.menu-288 a:link,
+ul.nice-menu li.menu-288 a:visited {
+  background-image: url(images/nav_new/about-us.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 75px;
+  text-indent: -5000px;
+}
+ul.nice-menu li.menu-288 a.active,
+ul.nice-menu li.menu-288 a:hover,
+ul.nice-menu li.menu-288 a:active {
+  background-image: url(images/nav_new/about-us-over.png);
+  height: 35px;
+}
+/* Books */
+ul.nice-menu li.menu-586,
+ul.nice-menu li.menu-586 a:link,
+ul.nice-menu li.menu-586 a:visited {
+  background-image: url(images/nav_new/books.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 70px;
+  text-indent: -5000px;
+}
+ul.nice-menu li.menu-586 a.active,
+ul.nice-menu li.menu-586 a:hover,
+ul.nice-menu li.menu-586 a:active {
+  background-image: url(images/nav_new/books-over.png);
+  height:35px;
+}
+/* Activities */
+ul.nice-menu li.menu-587,
+ul.nice-menu li.menu-587 a:link,
+ul.nice-menu li.menu-587 a:visited {
+  background-image: url(images/nav_new/activities.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 100px;
+  text-indent: -5000px;
+}
+ul.nice-menu li.menu-587 a.active,
+ul.nice-menu li.menu-587 a:hover,
+ul.nice-menu li.menu-587 a:active {
+  background-image: url(images/nav_new/activities-over.png);
+  height:35px;
+}
+/* News and Events */
+ul.nice-menu li.menu-592,
+ul.nice-menu li.menu-592 a:link,
+ul.nice-menu li.menu-592 a:visited {
+  background-image: url(images/nav_new/news.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 160px;
+  text-indent: -5000px;
+}
+ul.nice-menu li.menu-592 a.active,
+ul.nice-menu li.menu-592 a:hover,
+ul.nice-menu li.menu-592 a:active {
+  background-image: url(images/nav_new/news-over.png);
+  height:35px;
+}
+/* Exploring Careers */
+ul.nice-menu li.menu-595,
+ul.nice-menu li.menu-595 a:link,
+ul.nice-menu li.menu-595 a:visited {
+  background-image: url(images/nav_new/exploring-careers.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 165px;
+  text-indent: -5000px;
+}
+ul.nice-menu li.menu-595 a.active,
+ul.nice-menu li.menu-595 a:hover,
+ul.nice-menu li.menu-595 a:active {
+  background-image: url(images/nav_new/exploring-careers-over.png);
+  height: 35px;
+}
+/* Contact */
+ul.nice-menu li.menu-596,
+ul.nice-menu li.menu-596 a:link,
+ul.nice-menu li.menu-596 a:visited {
+  background-image: url(images/nav_new/contact.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 90px;
+  text-indent: -5000px;
+  border-right:none;
+}
+ul.nice-menu li.menu-596 a.active,
+ul.nice-menu li.menu-596 a:hover,
+ul.nice-menu li.menu-596 a:active {
+  background-image: url(images/nav_new/contact-over.png);
+  height: 35px;
+  border-right:none;
+}
+/* Blog */
+ul.nice-menu li.menu-3569,
+ul.nice-menu li.menu-3569 a:link,
+ul.nice-menu li.menu-3569 a:visited {
+  background-image: url(images/nav_new/blog.png);
+  background-position: 0px 0px;
+  padding: 0px;
+  height: 35px;
+  width: 55px;
+  text-indent: -5000px;
+
+}
+ul.nice-menu li.menu-3569 a.active,
+ul.nice-menu li.menu-3569 a:hover,
+ul.nice-menu li.menu-3569 a:active {
+  background-image: url(images/nav_new/blog-over.png);
+  height: 35px;
+
+}
+/* Submenus */
+ul.nice-menu li.menu-124 ul li a:link,
+ul.nice-menu li.menu-124 ul li a:visited,
+ul.nice-menu li.menu-124 ul li a:hover,
+ul.nice-menu li.menu-124 ul li a:active,
+
+ul.nice-menu li.menu-288 ul li a:link,
+ul.nice-menu li.menu-288 ul li a:visited,
+ul.nice-menu li.menu-288 ul li a:hover,
+ul.nice-menu li.menu-288 ul li a:active,
+
+ul.nice-menu li.menu-586 ul li a:link,
+ul.nice-menu li.menu-586 ul li a:visited,
+ul.nice-menu li.menu-586 ul li a:hover,
+ul.nice-menu li.menu-586 ul li a:active,
+
+ul.nice-menu li.menu-587 ul li a:link,
+ul.nice-menu li.menu-587 ul li a:visited,
+ul.nice-menu li.menu-587 ul li a:hover,
+ul.nice-menu li.menu-587 ul li a:active,
+
+ul.nice-menu li.menu-592 ul li a:link,
+ul.nice-menu li.menu-592 ul li a:visited,
+ul.nice-menu li.menu-592 ul li a:hover,
+ul.nice-menu li.menu-592 ul li a:active,
+
+ul.nice-menu li.menu-595 ul li a:link,
+ul.nice-menu li.menu-595 ul li a:visited,
+ul.nice-menu li.menu-595 ul li a:hover,
+ul.nice-menu li.menu-595 ul li a:active,
+
+ul.nice-menu li.menu-596 ul li a:link,
+ul.nice-menu li.menu-596 ul li a:visited,
+ul.nice-menu li.menu-596 ul li a:hover,
+ul.nice-menu li.menu-596 ul li a:active
+
+{
+  background-image: url(images/nav_new/arrow.png);
+  background-repeat: no-repeat;
+  background-position: left center;;
+  
+  padding: 3px 5px 3px 25px;
+  width: 12.5em;
+  height: auto;
+  color: #FFF;
+  text-indent: 0px;
+  display: block;
+}

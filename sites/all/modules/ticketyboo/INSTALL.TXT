@@ -1,0 +1,31 @@
+Ticketyboo
+==========
+This module lets you configure up to three Drupal blocks as scrolling news tickers.
+
+Installation
+============
+Copy the ticketyboo directory into the standard location {basepath}/sites/all/modules.
+
+Enable the module
+
+Configuring a block
+===================
+Go into block administration (admin/build/block)
+
+Choose the block you want to configure (Ticker 1, 2 or 3) and drag it into the section where you want it displayed (or use the dropdown to place it in a content region).  Then click "Save blocks".
+
+Then click "configure" alongside the block.  The block configuration screen has the standard Drupal configuration options (Title, Visibility, Roles, Pages).  In addition, you can set:
+ - Block title - ie to be displayed as a heading, enter <none> if no heading wanted
+ - Text - text to be displayed before the ticker
+ - The Nodes to be displayed in the ticker - this should be a comma-separated list of node numbers, eg 101, 102, 103 ... etc
+ - Transition time - the number of seconds it takes for the ticker to move from one item to the next
+ - Pause time - the number of seconds the ticker should pasue on each item
+ - Direction - horizontal or vertical
+ - Ticker style - CSS attributes to wrap around the ticker content - if you want any padding, put it in here
+ - Item width - the width, in pixels, of each item displayed
+ - Item height - the height, in pixels, of each item displayed
+ - Item spacing - distance, in pixels, between each item
+ - Ticker item style - CSS attributes to put on individual items - Note: margin and padding tend to confuse the ticker so avoid using these
+ - Offset - move the "home" position of each item by this number of pixels
+ 
+ 
